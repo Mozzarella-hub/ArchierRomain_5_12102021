@@ -59,12 +59,26 @@ BOUT TEST*/
 //Placer autant de produit que nécessaire dedans "automatiquement"
 //QUI va OU
 
+
+
+
 //************En fait !!! crée des div et class (voir peut-être le style),PUIS Insert avec ci-dessus !***************//
+
+/*
 let allProducts = document.createElement('ul');//Tous les produits en tableau ul
 allProducts.id = 'tabProduct';
 document.getElementById('items').appendChild('tabProduct');
-let article = document.createElement('li')//Div li des articles child de allProduct
+var article = document.createElement('li')//Div li des articles child de allProduct
 article.id = 'theArticle';
 document.getElementById('tabProduct').appendChild('article');
+*/
 
+
+document.body.onloadstart;
+let section = document.getElementById('items');
+let newArticle = document.createElement ('article');//rattache section pour une div parent article
+
+section.appendChild(newArticle);//rattache section pour une div parent article
+let contentArticle = document.createElement ('imgCanape');
+newArticle.appendChild(contentArticle);
 
