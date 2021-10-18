@@ -22,7 +22,7 @@ return fetch("http://localhost:3000/api/products")
 
 function displayArticle(article){
   const sectionElt = document.getElementById('items');
-  const cloneElt = var clone = document.importNode(templateElt.content, true);
+  //const cloneElt = var clone = document.importNode(templateElt.content, true);
 
 cloneElt.getElementById('items').textContent = article.title;
 cloneElt.getElementByClass('productName').textContent = article.title;
@@ -30,15 +30,6 @@ cloneElt.getElementByClass('productName').textContent = article.title;
 
 document.getElementById('main').appendChild(cloneElt);
 };
-*/
-//Connection de la class items avec l'API
-/*  DECOMPOSER LES TACHES:
-QUI va Avoir l'Information ?    
-Dire QUOI prendre ?
-OU le Prendre ?
-COMMENT et 
-COMBIEN ?
-Une boucle qui vide le TABLEAU ! ET SES PROPRIETES !
 
 Cette page présente l’ensemble des produits retournés par l’API.
 Pour chaque produit, il faudra afficher l’image de celui-ci, ainsi que son nom et le début de
@@ -72,7 +63,16 @@ var article = document.createElement('li')//Div li des articles child de allProd
 article.id = 'theArticle';
 document.getElementById('tabProduct').appendChild('article');
 */
-
+let url = http://localhost:3000/api/products;
+fetch(url).then(response => 
+  response.json().then(data) => {
+    console.log(data);
+    let allProducts = '<ul>';
+    for (let product of data){
+      allProducts += `<li></li>`
+    }
+    allProducts += `</ul>`;
+  });
 
 document.body.onloadstart;
 let section = document.getElementById('items');
@@ -93,3 +93,13 @@ newArticle.appendChild(imgArticle);
 newArticle.appendChild(h3Article);
 newArticle.appendChild(descriptionArticle);
 
+
+//boucle while pr importer le tableaux 
+/*
+while (section < 7) {
+  section++;
+  imgArticle++;
+  h3Article++;
+  descriptionArticle++;
+}
+*/
