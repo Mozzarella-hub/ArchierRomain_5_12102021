@@ -79,6 +79,17 @@ let section = document.getElementById('items');
 let newArticle = document.createElement ('article');//rattache section pour une div parent article
 
 section.appendChild(newArticle);//rattache section pour une div parent article
-let contentArticle = document.createElement ('imgCanape');
-newArticle.appendChild(contentArticle);
+let imgArticle = document.createElement ('pictureArticle');
+imgArticle.setAttribute('img', 'picture_imgArticle');
+
+let h3Article = document.createElement ('titleArticle');
+h3Article.setAttribute('h3', 'H3_article');
+
+let descriptionArticle = document.createElement ('paragrapheArticle');
+descriptionArticle.setAttribute('p', 'p_descriptionArticle');
+
+      //Mettre le atlttext, creation et placement appenChild
+newArticle.appendChild(imgArticle);
+newArticle.appendChild(h3Article);
+newArticle.appendChild(descriptionArticle);
 
