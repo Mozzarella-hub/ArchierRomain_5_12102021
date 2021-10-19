@@ -63,16 +63,21 @@ var article = document.createElement('li')//Div li des articles child de allProd
 article.id = 'theArticle';
 document.getElementById('tabProduct').appendChild('article');
 */
-let url = http://localhost:3000/api/products;
-fetch(url).then(response => 
-  response.json().then(data) => {
-    console.log(data);
-    let allProducts = '<ul>';
-    for (let product of data){
-      allProducts += `<li></li>`
+let url = 'http://localhost:3000/api/products';
+
+fetch(url)
+  .then((response) => 
+    response.json().then((data) => {
+      console.log(data);
+      let allProducts = '<ul>';
+      for (let product of data){
+        allProducts += `<li></li>`
     }
-    allProducts += `</ul>`;
-  });
+    /*allProducts += `</ul>`
+  }
+  .catch((err) {
+    // Une erreur est survenue
+  });*/
 
 document.body.onloadstart;
 let section = document.getElementById('items');
@@ -94,12 +99,4 @@ newArticle.appendChild(h3Article);
 newArticle.appendChild(descriptionArticle);
 
 
-//boucle while pr importer le tableaux 
-/*
-while (section < 7) {
-  section++;
-  imgArticle++;
-  h3Article++;
-  descriptionArticle++;
-}
-*/
+
