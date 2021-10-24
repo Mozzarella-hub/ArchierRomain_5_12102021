@@ -1,58 +1,3 @@
-/*
-(async function(){
-  const articles = await getArticles()
-  for (article of articles){
-    const article =articles[i];
-  }
-});
-
-
-function getArticles (){
-return fetch("http://localhost:3000/api/products")
-  .then(function(res) {
-      return res.json();
-  })
-  .then(function(articles) {
-    console.log(articles);
-  })
-  .catch(function(error) {
-   alert('Une erreur est survenue')
-  });
-}
-
-function displayArticle(article){
-  const sectionElt = document.getElementById('items');
-  //const cloneElt = var clone = document.importNode(templateElt.content, true);
-
-cloneElt.getElementById('items').textContent = article.title;
-cloneElt.getElementByClass('productName').textContent = article.title;
-
-
-document.getElementById('main').appendChild(cloneElt);
-};
-
-Cette page présente l’ensemble des produits retournés par l’API.
-Pour chaque produit, il faudra afficher l’image de celui-ci, ainsi que son nom et le début de
-sa description.
-En cliquant sur le produit, l’utilisateur sera redirigé sur la page du produit pour consulter
-celui-ci plus en détail
- */
-/*let insertProduct = 0;
-  
-
-  let elt = document.getElementById("items");
-  elt.classList.innerHTML();
-
-console.log(insertProduct);
-
-BOUT TEST*/
-
-//Placer autant de produit que nécessaire dedans "automatiquement"
-//QUI va OU
-
-
-
-
 //************En fait !!! crée des div et class (voir peut-être le style),PUIS Insert avec ci-dessus !***************//
 
 /*
@@ -63,40 +8,94 @@ var article = document.createElement('li')//Div li des articles child de allProd
 article.id = 'theArticle';
 document.getElementById('tabProduct').appendChild('article');
 */
-let url = 'http://localhost:3000/api/products';
+function nouvelArticle() {
+fetch('http://localhost:3000/api/products')
+  .then((response) => response.json()
+  .then((kanap) => kanap.forEach((kanap, i) => {
+    console.log(kanap);
+    console.log(i);
+    displayProducts(kanap);//FONCTION A FAIRE ET DEFINIR
+  }))
+  .catch((err) => {
+    console.log ('Une erreur est survenue')
+  })
+  )};
+nouvelArticle();
+ 
+function displayProducts(kanap) {
+const section = document.getElementById('items');
+console.log(section);
 
-fetch(url)
-  .then((response) => 
-    response.json().then((data) => {
-      console.log(data);
-      let allProducts = '<ul>';
-      for (let product of data){
-        allProducts += `<li></li>`
-    }
-    /*allProducts += `</ul>`
-  }
-  .catch((err) {
-    // Une erreur est survenue
-  });*/
+const divParent = document.createElement('a');
+divParent.href = './product.html?id=' + kanap._id;
+console.log(divParent);
 
-document.body.onloadstart;
-let section = document.getElementById('items');
-let newArticle = document.createElement ('article');//rattache section pour une div parent article
+let article = document.createElement ('article');
+console.log(article);
 
-section.appendChild(newArticle);//rattache section pour une div parent article
-let imgArticle = document.createElement ('pictureArticle');
-imgArticle.setAttribute('img', 'picture_imgArticle');
+const name = document.createElement('h3');
+name.classList.add('productName');
+console.log(name);
+name.innerHTML = kanap.name;
 
-let h3Article = document.createElement ('titleArticle');
-h3Article.setAttribute('h3', 'H3_article');
+const img = document.createElement('img');
+img.src = kanap.imageUrl;
+img.alt = kanap.altTxt;
+console.log(img);
 
-let descriptionArticle = document.createElement ('paragrapheArticle');
-descriptionArticle.setAttribute('p', 'p_descriptionArticle');
+let description = document.createElement('p');
+description.classList.add('productDescription');
+description.innerHTML = kanap.description;
+console.log(description);
 
-      //Mettre le atlttext, creation et placement appenChild
-newArticle.appendChild(imgArticle);
-newArticle.appendChild(h3Article);
-newArticle.appendChild(descriptionArticle);
+section.appendChild(divParent);
+divParent.appendChild(article);
+article.appendChild(img);
+article.appendChild(name);
+article.appendChild(description);
+}
 
+/*
+function getAllProducts() {
+  fetch("http://localhost:3000/api/products")
+      .then((res) => res.json())
+      .then((sofas) => sofas.forEach((sofa, i) => {
+          //console.log(sofa);
+          //console.log(i);
+          displaySofas(sofa);
+      }));
+}
+getAllProducts();
 
+function displaySofas(sofa) {
+  const section = document.querySelector('.items');
+  //console.log(section);
 
+  const card = document.createElement('a');
+  card.href = "./product.html?id=" + sofa._id;
+  console.log(card);
+
+  const article = document.createElement('article');
+  //console.log(article);
+
+  const name = document.createElement('h3');
+  name.classList.add('productName');
+  //console.log(name);
+  name.innerHTML = sofa.name;
+
+  const img = document.createElement('img');
+  img.src = sofa.imageUrl;
+  img.alt = sofa.altTxt;
+  //console.log(img);
+
+  const description = document.createElement('p');
+  description.classList.add('productDescription');
+  description.innerHTML = sofa.description;
+  //console.log(description);
+  section.appendChild(card)
+  card.appendChild(article);
+  article.appendChild(img);
+  article.appendChild(name);
+  article.appendChild(description);
+}
+*/
