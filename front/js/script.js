@@ -1,27 +1,29 @@
-//************En fait !!! crée des div et class (voir peut-être le style),PUIS Insert avec ci-dessus !***************//
-
 /*
-let allProducts = document.createElement('ul');//Tous les produits en tableau ul
-allProducts.id = 'tabProduct';
-document.getElementById('items').appendChild('tabProduct');
-var article = document.createElement('li')//Div li des articles child de allProduct
-article.id = 'theArticle';
-document.getElementById('tabProduct').appendChild('article');
+On appel l'API par fetch, créé la fonction-forEach
+Appliqué sur "chaque" éléments tableaux,
+Evite boucle (CHAQUE ELEMENTS)
 */
+
 function nouvelArticle() {
 fetch('http://localhost:3000/api/products')
   .then((response) => response.json()
   .then((kanap) => kanap.forEach((kanap, i) => {
     console.log(kanap);
     console.log(i);
-    displayProducts(kanap);//FONCTION A FAIRE ET DEFINIR
+    displayProducts(kanap);
   }))
   .catch((err) => {
     console.log ('Une erreur est survenue')
   })
   )};
 nouvelArticle();
- 
+
+
+ /*
+Function intégration front par js avec nom class fournit dans html commentaire,
+ et exemple adresse du produit par id (Search param),
+ on lit les enfants aux parents --> balise générique pour tpous les produits
+ */
 function displayProducts(kanap) {
 const section = document.getElementById('items');
 console.log(section);
@@ -53,4 +55,4 @@ divParent.appendChild(article);
 article.appendChild(img);
 article.appendChild(name);
 article.appendChild(description);
-}
+};
