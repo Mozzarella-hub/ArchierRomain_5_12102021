@@ -63,6 +63,7 @@ function displayPrice(priceProduct) {
 };
 
 */
+//Préparation url produit choisi, quantité et couleur
 var str = window.location.href;
 var url = new URL(str);
 var idProduct = url.searchParams.get("id");
@@ -84,7 +85,7 @@ function getArticle() {
     // Répartition des données de l'API dans le DOM
     .then(async function (resultatAPI) {
         article = await resultatAPI;
-        console.table(article);
+        console.table(article);//voir
         if (article){
             getPost(article);
         }
@@ -93,13 +94,13 @@ function getArticle() {
         console.log("Erreur de la requête API");
     })
 }
-    
+    //Post article choisi et tous ses éléments 
 function getPost(article){
     // Insertion de l'image
-    let productImg = document.createElement("img");
+    let productImg = document.createElement('img');
     document.querySelector(".item__img").appendChild(productImg);
     productImg.src = article.imageUrl;
-    productImg.alt = article.altTxt;
+    productImg.alt = article.altTxt;//revoir lien article src alt et productIMG
 
     // Modification du titre "h1"
     let productName = document.getElementById('title');
@@ -114,7 +115,7 @@ function getPost(article){
     productDescription.innerHTML = article.description;
 
     // Insertion des options de couleurs
-    for (let colors of article.colors){
+    for (let colors of article.colors){//apprendre logique
         console.table(colors);
         let productColors = document.createElement("option");
         document.querySelector("#colors").appendChild(productColors);
@@ -124,7 +125,9 @@ function getPost(article){
     addToCart(article);
 }
 
-//Gestion du panier
+//LIRE LE HAUT ET APPRENDRE PAR COEUR 
+
+//Ajout du panier
 function addToCart(article) {
     const btn_envoyerPanier = document.querySelector("#addToCart");
 
