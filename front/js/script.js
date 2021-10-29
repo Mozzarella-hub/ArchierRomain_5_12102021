@@ -8,7 +8,7 @@ function nouvelArticle() {
 fetch('http://localhost:3000/api/products')
   .then((response) => response.json()
   .then((kanap) => kanap.forEach((kanap, i) => {
-    console.log(kanap);
+    console.table(kanap);
     console.log(i);
     displayProducts(kanap);
   }))
