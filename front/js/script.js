@@ -24,6 +24,8 @@ Function intégration front par js avec nom class fournit dans html commentaire,
  et exemple adresse du produit par id (Search param),
  on lit les enfants aux parents --> balise générique pour tpous les produits
  */
+
+
 function displayProducts(kanap) {
 const section = document.getElementById('items');
 console.log(section);
@@ -56,3 +58,5 @@ article.appendChild(img);
 article.appendChild(name);
 article.appendChild(description);
 };
+
+

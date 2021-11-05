@@ -1,68 +1,5 @@
-/*function nouvelArticle() {
-    fetch('http://localhost:3000/api/products')
-      .then((response) => response.json()
-      .then((kanap) => kanap.forEach((kanap, i) => {
-        console.log(kanap);
-        console.log(i);
-        displayKanap(kanap);
-      }))
-      .catch((err) => {
-        console.log ('Une erreur est survenue')
-      })
-      )};
-    nouvelArticle();
-
-
-//la selection du product va passer par l'URL passe par ?ID
-let queryString_url_ID = window.location.search;
-console.log(queryString_url_ID);
-
-//methode 2 avec urlSearchParams extraction ID
-let URLSearchParams.get = new URLSearchParams(queryString_url_ID);
-console.log (URLSearchParams);
-
-let idProduct = URLSearchParams.get('_id')
-console.log(_id);
-
 
 /*
-function getProductId() {
-  return new URL(window.location.href).searchParams.get('id')
-}
-function displayKanap (kanap){
-
-//function affichage id_title
-function displayTitle(titleProduct) {
-let nameProduct = document.getElementById('#title');
-console.log(title);
-nameProduct.innerHTML = kanap.name;
-console.log(nameProduct);
-}
-*/
-
-/*
-//function affichage id_description
-function displayDescription(description) {
-    let contentDescription = document.getElementById('#description');
-    console.log(contentDescription);
-    contentDescription.innerHTML = kanap.description;
-    console.log(contentDescription);
-}
-
-//function affichage id_title
-function displayPrice(priceProduct) {
-    let price = document.getElementById('#price');
-    console.log(price);
-    priceProduct.innerHTML = kanap.price;
-    console.log(priceProduct);
-    }
-
-//function affichage id_colors
-//Attention l'élément sélectionné, vider un tableau d'objet
-
-};
-
-*/
 //Préparation url produit choisi, quantité et couleur
 let str = window.location.href;
 let url = new URL(str);
@@ -85,7 +22,7 @@ function getArticle() {
     // Répartition des données de l'API dans le DOM
     .then(async function (resultatAPI) {
         article = await resultatAPI;
-        console.table(article);//voir
+        console.table(article);
         if (article){
             getPost(article);
         }
@@ -94,6 +31,7 @@ function getArticle() {
         console.log("Erreur de la requête API");
     })
 }
+
     //Post article choisi et tous ses éléments - !Faire en premier! 
 function getPost(article){
     // Insertion de l'image
@@ -122,6 +60,202 @@ function getPost(article){
         productColors.value = colors;
         productColors.innerHTML = colors;
     }
-    //addToCart(article);
+    addToCart(article);
 }
+
+const choixQuantite = document.getElementById('quantity');
+const choixCouleur = document.getElementById('colors');
+//Function ajout au panier (add to cart)
+function addToCart(article) {
+        const btn_envoyerPanier = document.querySelector("#addToCart");
+        const addToCart = document.getElementById('addToCart');
+        //Ecouter le panier avec 2 conditions couleur non nulle et quantité entre 1 et 100
+        
+    btn_envoyerPanier.addEventListener("click", (event)=>{
+                event.preventDefault();
+    
+  
+    //Récupération des options de l'article à ajouter au panier
+        const optionsProduit = {
+            idProduit: idProduct,
+            couleurProduit: choixCouleur,
+            quantiteProduit: Number(choixQuantite),
+            nomProduit: article.name,
+            prixProduit: article.price,
+            descriptionProduit: article.description,
+            imgProduit: article.imageUrl,
+            altImgProduit: article.altTxt
+        };
+    
+        //Initialisation du local storage
+        let produitLocalStorage = JSON.parse(localStorage.getItem('Produit'));
+    
+        //fenêtre pop-up
+        const popupConfirmation =() =>{
+            if(window.confirm(`Votre sélection est ajoutée au panier
+    Pour la consulter, cliquez sur OK`)){
+                window.location.href ="cart.html";
+            }
+        }
+   
+        //Importation dans le local storage
+        //Si le panier comporte déjà au moins 1 article
+        if (produitLocalStorage) {
+        const resultFind = produitLocalStorage.find(
+            (el) => el.idProduit === idProduct && el.couleurProduit === choixCouleur);
+            //Si le produit commandé est déjà dans le panier
+            if (resultFind) {
+                let newQuantite =
+                parseInt(optionsProduit.quantiteProduit) + parseInt(resultFind.quantiteProduit);
+                resultFind.quantiteProduit = newQuantite;
+                localStorage.setItem("produit", JSON.stringify(produitLocalStorage));
+                console.table(produitLocalStorage);
+                popupConfirmation();
+            //Si le produit commandé n'est pas dans le panier
+            } else {
+                produitLocalStorage.push(optionsProduit);
+                localStorage.setItem("produit", JSON.stringify(produitLocalStorage));
+                console.table(produitLocalStorage);
+                popupConfirmation();
+            }
+        //Si le panier est vide
+        } else {
+            produitLocalStorage =[];
+            produitLocalStorage.push(optionsProduit);
+            localStorage.setItem("produit", JSON.stringify(produitLocalStorage));
+            console.table(produitLocalStorage);
+            popupConfirmation();
+        }
+}
+)}
+*/
+
+//---------JE REDIRIGE L'URL DE L'API---------
+
+// je crée une nouvelle url à partir de l'url actuelle 
+// et en ajoutant searchParams pour manipuler les paramètres de requête d'URL :
+let params = new URL(window.location.href).searchParams;
+// j'indique que la nouvelle url sera ajoutée d'un id :
+let newID = params.get('id');
+
+//---------J'APPELLE DE NOUVEAU L'API AVEC L'ID DU CANAPE CHOISI---------
+
+// je crée les variables dont j'ai besoin pour manipuler cette page :
+const image = document.getElementsByClassName('item__img');
+const title = document.getElementById('title');
+const price = document.getElementById('price');
+const description = document.getElementById('description');
+const colors = document.getElementById('colors');
+
+let imageURL = "";
+let imageAlt = "";
+
+// je crée la bonne URL pour chaque produit choisi en ajoutant newID
+fetch("http://localhost:3000/api/products/" + newID)
+  .then(res => res.json())
+  .then(data => {
+    // je modifie le contenu de chaque variable avec les bonnes données :
+    image[0].innerHTML = `<img src="${data.imageUrl}" alt="${data.altTxt}">`;
+    imageURL = data.imageUrl;
+    imageAlt = data.altTxt;
+    title.innerHTML = `<h1>${data.name}</h1>`;
+    price.innerText = `${data.price}`;
+    description.innerText = `${data.description}`;
+
+    // je configure le choix des couleurs 
+    for (number in data.colors) {
+      colors.options[colors.options.length] = new Option(
+        data.colors[number],
+        data.colors[number]
+      );
+    }
+  })
+    // j'ajoute un message au cas où le serveur ne répond pas
+  .catch(_error => {
+    alert('Oops ! Le serveur ne répond pas, suivez les instructions dans le READ.me.');
+  });
+
+
+//---------JE RECUPERE LES DONNEES PAR RAPPORT AU CHOIX DE L'UTILISATEUR---------
+
+
+
+// je configure un eventListener quand l'utilisateur clique sur ajouter au panier
+const addToCart = document.getElementById('addToCart');
+addToCart.addEventListener('click', (event) => {
+  event.preventDefault();
+  const selectQuantity = document.getElementById('quantity');
+  const selectColors = document.getElementById('colors');
+  
+  const selection = {
+    id: newID,
+    image: imageURL,
+    alt: imageAlt,
+    name: title.textContent,
+    price: price.textContent,
+    color: selectColors.value,
+    quantity: selectQuantity.value,
+  };
+  console.log(selection);
+
+  // je déclare une variable productInLocalStorage 
+  // dans laquelle je mets les clés+valeurs dans le local storage
+  // JSON.parse permet de convertir les données au format JSON en objet JavaScript
+  let productInLocalStorage =  JSON.parse(localStorage.getItem('product'));
+  console.log(productInLocalStorage);
+
+  // j'ajoute les produits sélectionnés dans le localStorage
+  const addProductLocalStorage = () => {
+  // je récupère la sélection de l'utilisateur dans le tableau de l'objet :
+  // on peut voir dans la console qu'il y a les données,
+  // mais pas encore stockées dans le storage à ce stade
+
+  //
+  productInLocalStorage.push(selection);
+  // je stocke les données récupérées dans le localStorage :
+  // JSON.stringify permet de convertir les données au format JavaScript en JSON 
+  // vérifier que key et value dans l'inspecteur contiennent bien des données
+  localStorage.setItem('product', JSON.stringify(productInLocalStorage));
+  console.log(addProductLocalStorage);
+  }
+
+  // je crée une boîte de dialogue pour confirmer l'ajout au panier
+  let addConfirm = () => {
+    alert('Le produit a bien été ajouté au panier');
+  }
+
+  let update = false;
+  
+  // s'il y a des produits enregistrés dans le localStorage
+  if (productInLocalStorage) {
+  // verifier que le produit ne soit pas deja dans le localstorage/panier
+  // avec la couleur
+   productInLocalStorage.forEach (function (productOk, key) {
+    if (productOk.id == newID && productOk.color == selectColors.value) {
+      productInLocalStorage[key].quantity = parseInt(productOk.quantity) + parseInt(selectQuantity.value);
+      localStorage.setItem('product', JSON.stringify(productInLocalStorage));
+      update = true;
+      addConfirm();
+    }
+  });
+
+  //
+    if (!update) {
+    addProductLocalStorage();
+    addConfirm();
+    console.log(productInLocalStorage);
+    }
+  }
+
+  // s'il n'y a aucun produit enregistré dans le localStorage 
+  else {
+    // je crée alors un tableau avec les éléments choisi par l'utilisateur
+    productInLocalStorage = [];
+    addProductLocalStorage();
+    addConfirm();
+    console.log(productInLocalStorage);
+  }
+});
+
+
 
