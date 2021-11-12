@@ -226,8 +226,9 @@ function userInputVerification() {
 }
 
 // Id in Array to POST
+let userBasket = [];
 function productsToSend() {
-	let userBasket = [];
+	
 	for (let i = 0; i < localStorage.length; i++) {
 		let id = localStorage.key(i);
 		userBasket.push(id);
@@ -236,7 +237,7 @@ function productsToSend() {
 }
 
 // Send info to the back if valid, request orderId
-let userFormSubmit = document.getElementById("order");
+let userFormSubmit = document.getElementById(".order");
 userFormSubmit.addEventListener("click", (e) => {
 	e.preventDefault();
 
@@ -250,29 +251,54 @@ userFormSubmit.addEventListener("click", (e) => {
 				city: city.value,
 				email: email.value,
 			},
-			products: productInLocalStorage,
+			products: userBasket,
 		};
 		// POSTing on the API
-fetch("http://localhost:3000/api/products/order/" ,{
+/*fetch("http://localhost:3000/api/products/order/" ,{
    
 			method: "POST",
-			headers: {
-				Accept: "application/json",
-				Type: "application/json",
-			},
-			body: JSON.stringify(toSend),
+        headers: {
+            "Content-Type": "application/json"
+        },
+		body: JSON.stringify(toSend),
 		})
-
-
-			// Storing order Id in the url
-			.then((rep) => rep.json())
-			.then((value) => {
-				//localStorage.clear();
-				document.location.href = `./confirmation.html?id=${value.orderId}`;
+			
+			.then((response) => {
+				if (response.ok) {
+					return response.json();
+				}
+			})
+			.then((data) => {
+				localStorage.setItem("orderId", JSON.stringify(data))
 			})
 			.catch((error) => {
 				console.log("Error: " + error);
 			});
+			function idTestComm () { invoice = strval(rand(1,1000))
+		} //valeur unique empechant les paiements accidentels (doit être differente pour chaque paiement)
+				idTestComm();
+	document.location.href = `./confirmation.html?id=${toSend.orderId}`;
+	*/
+
+	const options = {
+		method: 'POST',
+		body: JSON.stringify(toSend),
+		headers: { 
+		  'Accept': 'application/json',
+		  'Content-Type': 'application/json' ,
+		'mode': 'cors',
+  		'credentials': 'include'
+		}
+	  }
+	
+	   	fetch('http://localhost:3000/api/products/order/', options)
+		.then(response => response.json())
+		.then(data => {
+		  // localStorage.clear();
+		  localStorage.setItem('orderId', JSON.stringify(data.orderId));
+		  document.location.href = `confirmation.html?id=${data.orderId}`;
+		});
+	
 }}
 )
 
