@@ -235,14 +235,15 @@ function productsToSend() {
 	}
 	return userBasket;
 }
+productsToSend();
 
 // Send info to the back if valid, request orderId
-let userFormSubmit = document.getElementById(".order");
+let userFormSubmit = document.getElementById("order");
 userFormSubmit.addEventListener("click", (e) => {
 	e.preventDefault();
 
 	if (userInputVerification()) {
-		const products = productsToSend();
+		const products = localStorage.length[id];// productInLocalStorage[i].id;
 		const toSend = {
 			contact: {
 				firstName: firstName.value,
@@ -251,54 +252,25 @@ userFormSubmit.addEventListener("click", (e) => {
 				city: city.value,
 				email: email.value,
 			},
-			products: userBasket,
+			products,
 		};
-		// POSTing on the API
-/*fetch("http://localhost:3000/api/products/order/" ,{
-   
-			method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-		body: JSON.stringify(toSend),
-		})
-			
-			.then((response) => {
-				if (response.ok) {
-					return response.json();
-				}
-			})
-			.then((data) => {
-				localStorage.setItem("orderId", JSON.stringify(data))
-			})
-			.catch((error) => {
-				console.log("Error: " + error);
-			});
-			function idTestComm () { invoice = strval(rand(1,1000))
-		} //valeur unique empechant les paiements accidentels (doit être differente pour chaque paiement)
-				idTestComm();
-	document.location.href = `./confirmation.html?id=${toSend.orderId}`;
-	*/
-
+		
 	const options = {
 		method: 'POST',
 		body: JSON.stringify(toSend),
 		headers: { 
 		  'Accept': 'application/json',
 		  'Content-Type': 'application/json' ,
-		'mode': 'cors',
-  		'credentials': 'include'
 		}
-	  }
-	
-	   	fetch('http://localhost:3000/api/products/order/', options)
-		.then(response => response.json())
+	}
+
+	   	fetch(("http://localhost:3000/api/products/order" ), options)
+			.then(response => response.json())
 		.then(data => {
 		  // localStorage.clear();
-		  localStorage.setItem('orderId', JSON.stringify(data.orderId));
-		  document.location.href = `confirmation.html?id=${data.orderId}`;
+			localStorage.setItem('orderId', JSON.stringify(data.orderId));
+		  document.location.href = 'confirmation.html?id='+ data.orderId;
 		});
-	
-}}
+		}  
+	}
 )
-
