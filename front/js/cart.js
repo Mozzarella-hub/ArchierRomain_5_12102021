@@ -1,4 +1,3 @@
-// RECUPERER LES PRODUITS STOCKES DANS LE LOCALSTORAGE   //
 
 let productInLocalStorage =  JSON.parse(localStorage.getItem('product'));
 console.log('voici les produits dans le localStorage', productInLocalStorage);
@@ -226,16 +225,23 @@ function userInputVerification() {
 }
 
 // Id in Array to POST
-let userBasket = [];
 function productsToSend() {
-	
-	for (let i = 0; i < localStorage.length; i++) {
-		let id = localStorage.key(i);
-		userBasket.push(id);
+	let productString = localStorage.getItem('product');
+	let stockProduct = JSON.parse(productString);
+
+let tablishment =	[];
+
+	for (let index = 0; index < stockProduct.length; index++) {
+		const product = stockProduct[index];
+		tablishment.push(product.id);
 	}
-	return userBasket;
+	return tablishment;
 }
-productsToSend();
+
+
+
+
+
 
 // Send info to the back if valid, request orderId
 let userFormSubmit = document.getElementById("order");
@@ -243,7 +249,6 @@ userFormSubmit.addEventListener("click", (e) => {
 	e.preventDefault();
 
 	if (userInputVerification()) {
-		const products = localStorage.length[id];// productInLocalStorage[i].id;
 		const toSend = {
 			contact: {
 				firstName: firstName.value,
@@ -252,7 +257,7 @@ userFormSubmit.addEventListener("click", (e) => {
 				city: city.value,
 				email: email.value,
 			},
-			products,
+			products : productsToSend()
 		};
 		
 	const options = {
@@ -267,7 +272,7 @@ userFormSubmit.addEventListener("click", (e) => {
 	   	fetch(("http://localhost:3000/api/products/order" ), options)
 			.then(response => response.json())
 		.then(data => {
-		  // localStorage.clear();
+		  	localStorage.clear();
 			localStorage.setItem('orderId', JSON.stringify(data.orderId));
 		  document.location.href = 'confirmation.html?id='+ data.orderId;
 		});

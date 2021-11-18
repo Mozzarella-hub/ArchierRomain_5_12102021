@@ -82,7 +82,6 @@ addToCart.addEventListener('click', (event) => {
   //
   productInLocalStorage.push(selection);
   // je stocke les données récupérées dans le localStorage :
-  // JSON.stringify permet de convertir les données au format JavaScript en JSON 
   // vérifier que key et value dans l'inspecteur contiennent bien des données
   localStorage.setItem('product', JSON.stringify(productInLocalStorage));
   console.log(addProductLocalStorage);
