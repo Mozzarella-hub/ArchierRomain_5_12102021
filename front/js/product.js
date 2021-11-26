@@ -9,7 +9,7 @@ let newID = params.get('id');
 
 //---------J'APPELLE DE NOUVEAU L'API AVEC L'ID DU CANAPE CHOISI---------
 
-// je crée les variables dont j'ai besoin pour manipuler cette page :
+// je crée les variables manipuler les éléments de la page
 const image = document.getElementsByClassName('item__img');
 const title = document.getElementById('title');
 const price = document.getElementById('price');
@@ -19,7 +19,7 @@ const colors = document.getElementById('colors');
 let imageURL = "";
 let imageAlt = "";
 
-// je crée la bonne URL pour chaque produit choisi en ajoutant newID
+// je créé la bonne URL pour chaque produit choisi en ajoutant newID
 fetch("http://localhost:3000/api/products/" + newID)
   .then(res => res.json())
   .then(data => {
@@ -39,9 +39,9 @@ fetch("http://localhost:3000/api/products/" + newID)
       );
     }
   })
-    // j'ajoute un message au cas où le serveur ne répond pas
+    // si le serveur ne reponds pas
   .catch(_error => {
-    alert('Oops ! Le serveur ne répond pas, suivez les instructions dans le READ.me.');
+    alert('Erreur serveur');
   });
 
 
@@ -49,7 +49,7 @@ fetch("http://localhost:3000/api/products/" + newID)
 
 
 
-// je configure un eventListener quand l'utilisateur clique sur ajouter au panier
+// je configure un eventListener sur clic addToCarts
 const addToCart = document.getElementById('addToCart');
 addToCart.addEventListener('click', (event) => {
   event.preventDefault();
@@ -75,19 +75,14 @@ addToCart.addEventListener('click', (event) => {
 
   // j'ajoute les produits sélectionnés dans le localStorage
   const addProductLocalStorage = () => {
-  // je récupère la sélection de l'utilisateur dans le tableau de l'objet :
-  // on peut voir dans la console qu'il y a les données,
-  // mais pas encore stockées dans le storage à ce stade
-
-  //
+  // recupération de sélection de utilisateur dans le tableau de l'objet :
   productInLocalStorage.push(selection);
-  // je stocke les données récupérées dans le localStorage :
-  // vérifier que key et value dans l'inspecteur contiennent bien des données
+  // stockage données récupérées dans le localStorage :
   localStorage.setItem('product', JSON.stringify(productInLocalStorage));
   console.log(addProductLocalStorage);
   }
 
-  // je crée une boîte de dialogue pour confirmer l'ajout au panier
+  // boîte de dialogue pour confirmation ajout au panier
   let addConfirm = () => {
     alert('Le produit a bien été ajouté au panier');
   }

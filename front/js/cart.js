@@ -8,14 +8,14 @@ console.log('voici les produits dans le localStorage', productInLocalStorage);
  let cartAndFormContainer = document.getElementById('cartAndFormContainer');
  console.log(cartAndFormContainer);
 
- // si le panier est vide : afficher 'le panier est vide'
+ // si panier vide : afficher 'le panier est vide'
 if(productInLocalStorage === null || productInLocalStorage == 0) {
   document.querySelector("#cart__items").innerHTML =`
   <div class="cart__empty">
     <p>Votre panier est vide ! <br> Merci de sélectionner des produits depuis la page d'accueil</p>
   </div>`;
 }
-// si le panier n'est pas vide : afficher les produits dans le localStorage
+// si remplit: afficher les produits dans le localStorage
 else{ 
   let itemCards = [];
       //expression initiale; condition; incrémentation
@@ -73,7 +73,7 @@ function changeQtt() {
 
           localStorage.setItem('product', JSON.stringify(productInLocalStorage));
 
-          // avertir de la suppression et recharger la page
+          // alerte de l'action et recharger la page
           alert('Votre panier est à jour.');
           window.location.href = "cart.html";
     
@@ -97,7 +97,7 @@ function deleteArticle() {
 
       // supprimer l'élément cliqué par le bouton supprimer
       productInLocalStorage = productInLocalStorage.filter( elt => elt.id !== deleteId);
-      console.log('je suis le nouveau localstorage', productInLocalStorage);
+      console.log('new localstorage', productInLocalStorage);
       
       // envoyer la variable dans le localStorage
       localStorage.setItem('product', JSON.stringify(productInLocalStorage));
@@ -140,14 +140,9 @@ function priceAmount() {
 priceAmount();
 
 } // fin else : s'il y a des produits dans le panier
-/////////////////////////////////////////////////////////
 
-////////////////////////////////////////////////////////
 // DEMANDER LES INFOS DE L'UTILISATEUR
-
-
-
-// j'envoie le formulaire dans le serveur
+// envoie formulaire dans le serveur
 class Form {
 	constructor() {
 		this.firstName = document.getElementById("firstName").value;
@@ -237,10 +232,6 @@ let tablishment =	[];
 	}
 	return tablishment;
 }
-
-
-
-
 
 
 // Send info to the back if valid, request orderId
